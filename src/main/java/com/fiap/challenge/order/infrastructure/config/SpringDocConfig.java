@@ -18,7 +18,6 @@ class SpringDocConfig {
     @Value("classpath:openapi/api.yaml")
     private Resource openAPIResource;
 
-
     @Bean
     @Primary
     public OpenAPI openApi() throws IOException {

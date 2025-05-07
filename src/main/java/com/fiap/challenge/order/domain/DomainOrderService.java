@@ -49,8 +49,9 @@ public class DomainOrderService implements OrderService {
 
     @Override
     public PaymentStatus getPaymentStatusById(Long id) {
-        Optional<Order> orderPayment = orderRepository.findById(id);
-        return orderPayment.get().getPayment().getStatus();
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Order not found. ID: " + id, "ORDER_NOT_FOUND"));
+        return order.getPayment().getStatus();
     }
 
     @Override

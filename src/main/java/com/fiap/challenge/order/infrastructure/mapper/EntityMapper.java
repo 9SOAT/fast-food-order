@@ -4,7 +4,6 @@ import com.fiap.challenge.order.domain.model.order.Order;
 import com.fiap.challenge.order.domain.model.order.OrderItem;
 import com.fiap.challenge.order.domain.model.order.OrderStatus;
 import com.fiap.challenge.order.domain.model.payment.Payment;
-import com.fiap.challenge.order.domain.model.product.Product;
 import com.fiap.challenge.order.domain.model.product.ProductCategory;
 import com.fiap.challenge.order.domain.model.product.ProductStatus;
 import com.fiap.challenge.order.infrastructure.entity.*;
@@ -15,10 +14,6 @@ import org.mapstruct.factory.Mappers;
 public interface EntityMapper {
 
     EntityMapper INSTANCE = Mappers.getMapper(EntityMapper.class);
-
-    public Product toProduct(ProductEntity productEntity);
-
-    public ProductEntity toProductEntity(Product product);
 
     public ProductCategoryEntity toCategoryEntity(ProductCategory category);
 
