@@ -1,7 +1,7 @@
 ---
 openapi: 3.0.1
 info:
-  title: Fast Food API
+  title: Fast Food Order API
   version: v0
 paths:
   '/orders/{id}/payment/approval':
