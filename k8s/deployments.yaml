@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fast-food-order-deployment
+  labels:
+    app: fast-food-order
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fast-food-order
+  template:
+    metadata:
+      name: fast-food-order
+      labels:
+        app: fast-food-order
+    spec:
+      dnsPolicy: None
+      dnsConfig:
+        nameservers:
+          - 8.8.8.8     # Google DNS
+          - 1.1.1.1     # Cloudflare DNS
+      containers:
+        - name: fast-food-order
+          image: 897722698720.dkr.ecr.us-east-1.amazonaws.com/fast-food-order:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources:
+            requests:
+              memory: "800Mi"
+              cpu: "700m"
+            limits:
+              memory: "800Mi"
+              cpu: "700m"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            failureThreshold: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 40
+            periodSeconds: 10
+          env:
+            - name: AWS_REGION
+              valueFrom:
+                configMapKeyRef:
+                  name: config-map
+                  key: AWS_REGION
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: AWS_SECRET_ACCESS_KEY
+      restartPolicy: Always
