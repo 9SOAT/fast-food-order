@@ -3,4 +3,6 @@ kind: ConfigMap
 metadata:
   name: config-map
 data:
-  AWS_REGION: "us-east-1"
+  POSTGRES_HOST: "postgres-cluster.cmjee0k0i9k7.us-east-1.rds.amazonaws.com"
+  POSTGRES_PORT: "5432"
+  POSTGRES_DATABASE: "fast_fast_order"
