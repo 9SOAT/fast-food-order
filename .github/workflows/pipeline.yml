@@ -1,17 +1,19 @@
-name: SonarQube
+name: Deploy pipeline
+
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [ opened, synchronize, reopened ]
+
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
+
 jobs:
   build:
     name: Build and analyze
     runs-on: ubuntu-latest
-    permissions: # permission to comment a PR
-      contents: read
-      id-token: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -20,7 +22,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: 21
-          distribution: 'zulu' # Alternative distribution options are available.
+          distribution: 'temurin' # Alternative distribution options are available.
       - name: Cache SonarQube packages
         uses: actions/cache@v4
         with:
