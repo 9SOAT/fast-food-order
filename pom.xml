@@ -150,7 +150,7 @@
                 </executions>
                 <configuration>
                     <finalName>app</finalName>
-                    <mainClass>com.fiap.challenge.food.Application</mainClass>
+                    <mainClass>com.fiap.challenge.order.FastFoodOrderApplication</mainClass>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
