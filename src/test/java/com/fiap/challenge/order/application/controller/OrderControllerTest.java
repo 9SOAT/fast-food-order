@@ -70,7 +70,7 @@ class OrderControllerTest {
                         .param("size", "10")
                         .param("status", statusFilter.name()))
                 .andDo(MockMvcResultHandlers.print())
-            .andExpect(status().isOk());
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -150,35 +150,71 @@ class OrderControllerTest {
     }
 
     @Test
+    void rejectPaymentCallsService() throws Exception {
+        String transactionId = "transaction123";
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders/" + transactionId + "/payment/reject"))
+                .andExpect(status().isCreated());
+
+        verify(orderService).rejectPayment(transactionId);
+    }
+
+    @Test
+    void rejectPaymentReturnsCreatedStatus() throws Exception {
+        String transactionId = "transaction123";
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders/" + transactionId + "/payment/reject"))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    void approvePaymentWithTransactionIdCallsService() throws Exception {
+        String transactionId = "transaction456";
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders/" + transactionId + "/payment/approve"))
+                .andExpect(status().isCreated());
+
+        verify(orderService).approvePayment(transactionId);
+    }
+
+    @Test
+    void approvePaymentWithTransactionIdReturnsCreatedStatus() throws Exception {
+        String transactionId = "transaction456";
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders/" + transactionId + "/payment/approve"))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
     void saveOrderCallsService() throws Exception {
         Order order = OrderFixture.validOrder();
-        String requestBody = """
+        String orderJson = """
                     {
                         "status": "%s",
                         "items": [{"id": "%s", "quantity": %d}]
                     }
                 """.formatted(order.getStatus(), order.getItems().get(0).getId(), order.getItems().get(0).getQuantity());
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/orders/" + order.getId())
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders/create")
                         .contentType(APPLICATION_JSON)
-                        .content(requestBody))
+                        .content(orderJson))
                 .andExpect(status().isCreated());
 
         verify(orderService).saveOrder(any(Order.class));
     }
 
     @Test
-    void saveOrderWithInvalidOrderReturnsBadRequest() throws Exception {
-        String invalidRequestBody = """
+    void saveOrderWithInvalidRequestReturnsBadRequest() throws Exception {
+        String invalidOrderJson = """
                     {
                         "status": "",
                         "items": []
                     }
                 """;
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/orders/1")
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders/create")
                         .contentType(APPLICATION_JSON)
-                        .content(invalidRequestBody))
+                        .content(invalidOrderJson))
                 .andExpect(status().isBadRequest());
     }
 

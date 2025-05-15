@@ -33,19 +33,19 @@ public class OrderController {
     }
 
     @ResponseStatus(CREATED)
-    @PostMapping("/{id}")
+    @PostMapping("/create")
     public void saveOrder(@RequestBody Order order) {
         orderService.saveOrder(order);
     }
 
     @ResponseStatus(CREATED)
-    @PostMapping("/{id}/payment/reject")
+    @PostMapping("/{transactionId}/payment/reject")
     public void rejectPayment(@PathVariable String transactionId) {
         orderService.rejectPayment(transactionId);
     }
 
     @ResponseStatus(CREATED)
-    @PostMapping("/{id}/payment/approve")
+    @PostMapping("/{transactionId}/payment/approve")
     public void approvePayment(@PathVariable String transactionId) {
         orderService.approvePayment(transactionId);
     }
