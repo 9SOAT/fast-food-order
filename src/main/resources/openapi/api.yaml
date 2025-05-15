@@ -99,8 +99,7 @@ components:
           type: integer
           format: int64
         consumerId:
-          type: integer
-          format: int64
+          type: string
         payment:
           $ref: '#/components/schemas/PaymentView'
         items:
