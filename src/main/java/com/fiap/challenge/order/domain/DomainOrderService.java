@@ -32,6 +32,11 @@ public class DomainOrderService implements OrderService {
     }
 
     @Override
+    public Order saveOrder(Order order) {
+        return orderRepository.save(order);
+    }
+
+    @Override
     public void approvePayment(Long orderId) {
         approvePayment(
             String.format(ORDER_NOT_FOUND, orderId),

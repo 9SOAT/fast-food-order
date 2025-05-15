@@ -33,6 +33,24 @@ public class OrderController {
     }
 
     @ResponseStatus(CREATED)
+    @PostMapping("/{id}")
+    public void saveOrder(@RequestBody Order order) {
+        orderService.saveOrder(order);
+    }
+
+    @ResponseStatus(CREATED)
+    @PostMapping("/{id}/payment/reject")
+    public void rejectPayment(@PathVariable String transactionId) {
+        orderService.rejectPayment(transactionId);
+    }
+
+    @ResponseStatus(CREATED)
+    @PostMapping("/{id}/payment/approve")
+    public void approvePayment(@PathVariable String transactionId) {
+        orderService.approvePayment(transactionId);
+    }
+
+    @ResponseStatus(CREATED)
     @PostMapping("/{id}/payment/approval")
     public void approvePayment(@PathVariable Long id) {
         orderService.approvePayment(id);
