@@ -66,10 +66,10 @@ class OrderControllerTest {
         when(viewMapper.toOrderView(any())).thenReturn(OrderViewFixture.validOrderView());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/orders")
-                .param("page", "1")
-                .param("size", "10")
-                .param("status", statusFilter.name()))
-            .andDo(MockMvcResultHandlers.print())
+                        .param("page", "1")
+                        .param("size", "10")
+                        .param("status", statusFilter.name()))
+                .andDo(MockMvcResultHandlers.print())
             .andExpect(status().isOk());
     }
 
@@ -147,6 +147,39 @@ class OrderControllerTest {
             .andExpect(status().isOk());
 
         verify(orderService).updateStatus(orderId, OrderStatus.IN_PREPARATION);
+    }
+
+    @Test
+    void saveOrderCallsService() throws Exception {
+        Order order = OrderFixture.validOrder();
+        String requestBody = """
+                    {
+                        "status": "%s",
+                        "items": [{"id": "%s", "quantity": %d}]
+                    }
+                """.formatted(order.getStatus(), order.getItems().get(0).getId(), order.getItems().get(0).getQuantity());
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders/" + order.getId())
+                        .contentType(APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isCreated());
+
+        verify(orderService).saveOrder(any(Order.class));
+    }
+
+    @Test
+    void saveOrderWithInvalidOrderReturnsBadRequest() throws Exception {
+        String invalidRequestBody = """
+                    {
+                        "status": "",
+                        "items": []
+                    }
+                """;
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders/1")
+                        .contentType(APPLICATION_JSON)
+                        .content(invalidRequestBody))
+                .andExpect(status().isBadRequest());
     }
 
 }
