@@ -1,6 +1,5 @@
 package com.fiap.challenge.order.domain;
 
-import com.fiap.challenge.order.domain.model.PageResult;
 import com.fiap.challenge.order.domain.model.exception.NotFoundException;
 import com.fiap.challenge.order.domain.model.exception.UnprocessableEntityException;
 import com.fiap.challenge.order.domain.model.order.Order;
@@ -94,9 +93,9 @@ class DomainOrderServiceTest {
 
         // Assert
         verify(orderRepositoryMock).save(ArgumentMatchers.argThat(o ->
-            o.getStatus() == OrderStatus.READY_FOR_PREPARATION &&
-                order.getPayment().getStatus() == PaymentStatus.APPROVED &&
-                order.getPayment().getApprovedAt() != null
+                o.getStatus() == OrderStatus.READY_FOR_PREPARATION &&
+                        order.getPayment().getStatus() == PaymentStatus.APPROVED &&
+                        order.getPayment().getApprovedAt() != null
         ));
     }
 
@@ -133,7 +132,7 @@ class DomainOrderServiceTest {
         // Arrange
         OrderStatus status = OrderStatus.WAITING_PAYMENT;
         when(orderRepositoryMock.findAllByStatusIn(ArgumentMatchers.anyList(), ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt()))
-            .thenReturn(OrderFixture.pageResultWithOneOrder());
+                .thenReturn(OrderFixture.pageResultWithOneOrder());
 
         // Act
         var result = target.getAllByStatus(List.of(status), 0, 10);
@@ -234,6 +233,20 @@ class DomainOrderServiceTest {
         // Assert
         assertEquals(1, result.getTotalElements());
         assertEquals(1, result.getContent().size());
+    }
+
+    @Test
+    void testSaveOrderSuccessfully() {
+        // Arrange
+        Order order = OrderFixture.validOrder();
+        when(orderRepositoryMock.save(order)).thenReturn(order);
+
+        // Act
+        Order savedOrder = target.saveOrder(order);
+
+        // Assert
+        verify(orderRepositoryMock).save(order);
+        assertEquals(order, savedOrder);
     }
 
 }

@@ -11,6 +11,8 @@ public interface OrderService {
 
     PageResult<Order> getAllByStatus(List<OrderStatus> status, int page, int size);
 
+    Order saveOrder(Order order);
+
     void approvePayment(String transactionId);
 
     void rejectPayment(String transactionId);
