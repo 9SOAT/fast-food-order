@@ -24,6 +24,8 @@ spring:
         persistence:
           validation:
             mode: none
+  liquibase:
+    change-log: classpath:db/changelog-master.yaml
   data:
     rest:
       default-media-type: application/json
