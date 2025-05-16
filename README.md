@@ -1,5 +1,8 @@
 # Order Microservice
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=9SOAT_fast-food-order&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=9SOAT_fast-food-order)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=9SOAT_fast-food-order&metric=coverage)](https://sonarcloud.io/summary/new_code?id=9SOAT_fast-food-order)
+
 O **Fast Food Order Microservice** é um serviço desenvolvido em **Java 21** com **Spring Boot 3.4** que faz parte do ecossistema de microserviços do projeto Fast-Food. Ele é responsável por gerenciar pedidos de fast-food, oferecendo funcionalidades para:
 
 - **Criar novos pedidos**  
