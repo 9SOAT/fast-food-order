@@ -79,4 +79,3 @@ O **GitHub Actions** está configurado para executar, a cada push:
 1. Análise estática de código  
 2. Testes unitários (JUnit + Mockito)  
 3. Verificação de cobertura e qualidade via SonarQube  
-
