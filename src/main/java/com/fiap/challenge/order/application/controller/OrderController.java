@@ -33,8 +33,8 @@ public class OrderController {
 
     @ResponseStatus(CREATED)
     @PostMapping("/create")
-    public void saveOrder(@RequestBody Order order) {
-        orderService.saveOrder(order);
+    public Order saveOrder(@RequestBody Order order) {
+        return orderService.saveOrder(order);
     }
 
     @GetMapping()
