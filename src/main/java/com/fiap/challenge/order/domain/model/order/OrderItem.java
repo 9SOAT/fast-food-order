@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 public class OrderItem {
     private Long id;
     @NonNull
-    private Long productId;
+    private String productId;
     @NonNull
     private String productName;
     @NonNull
