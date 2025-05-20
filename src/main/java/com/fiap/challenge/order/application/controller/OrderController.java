@@ -57,6 +57,22 @@ public class OrderController {
     }
 
     @Transactional
+    @PatchMapping("/payment/{id}/approve")
+    public void approveOrderPayment(
+            @PathVariable Long id
+    ) {
+        orderService.approveOrderPayment(id);
+    }
+
+    @Transactional
+    @PatchMapping("/payment/{id}/reject")
+    public void rejectOrderPayment(
+            @PathVariable Long id
+    ) {
+        orderService.rejectOrderPayment(id);
+    }
+
+    @Transactional
     @PatchMapping("/{id}/status")
     public void updateOrderStatus(
         @PathVariable Long id,

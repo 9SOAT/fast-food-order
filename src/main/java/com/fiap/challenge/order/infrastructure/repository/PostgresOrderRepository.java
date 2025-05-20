@@ -57,8 +57,8 @@ public class PostgresOrderRepository implements OrderRepository {
     }
 
     @Override
-    public Optional<Order> findByPaymentTransactionId(String transactionId) {
-        return jpaOrderRepository.findByPaymentTransactionId(transactionId)
+    public Optional<Order> findByPaymentId(Long paymentId) {
+        return jpaOrderRepository.findByPaymentId(paymentId)
             .map(entityMapper::toOrder);
     }
 

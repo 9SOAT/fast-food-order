@@ -18,7 +18,7 @@ import java.util.Optional;
 public interface JpaOrderRepository extends JpaRepository<OrderEntity, Long> {
 
     Page<OrderEntity> findAllByStatusIn(Collection<@NotNull OrderStatusEntity> statuses, Pageable pageable);
-    Optional<OrderEntity> findByPaymentTransactionId(String transactionId);
+    Optional<OrderEntity> findByPaymentId(Long paymentId);
     @Query("SELECT o FROM OrderEntity o WHERE o.status IN :statuses " +
         "ORDER BY CASE " +
         "WHEN o.status = 'READY_FOR_PICKUP' THEN 1 " +
