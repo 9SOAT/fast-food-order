@@ -30,7 +30,7 @@ public class OrderFixture {
                 PaymentStatus.PENDING,
                 null
             ),
-            List.of(new OrderItem(1L, 1L, "X-Tudo", ProductCategory.SANDWICH, 2, new BigDecimal("20.00"), new BigDecimal("40.00"))), OrderStatus.WAITING_PAYMENT, new BigDecimal("40.00"),
+            List.of(new OrderItem(1L, "1", "X-Tudo", ProductCategory.SANDWICH, 2, new BigDecimal("20.00"), new BigDecimal("40.00"))), OrderStatus.WAITING_PAYMENT, new BigDecimal("40.00"),
             Instant.now()
         );
     }
