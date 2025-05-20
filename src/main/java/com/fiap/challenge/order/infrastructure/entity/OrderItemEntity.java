@@ -24,7 +24,7 @@ public class OrderItemEntity {
     private Long id;
 
     @NotNull
-    private Long productId;
+    private String productId;
 
     @NotNull
     private String productName;
