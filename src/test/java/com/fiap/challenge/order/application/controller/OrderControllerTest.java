@@ -15,7 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -46,16 +45,6 @@ class OrderControllerTest {
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(orderController).build();
-    }
-
-    @Test
-    void approvePaymentCallsService() throws Exception {
-        long orderId = 1L;
-
-        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post("/orders/" + orderId + "/payment/approval"));
-        resultActions.andExpect(status().isCreated());
-
-        verify(orderService).approvePayment(orderId);
     }
 
     @Test
@@ -147,42 +136,6 @@ class OrderControllerTest {
             .andExpect(status().isOk());
 
         verify(orderService).updateStatus(orderId, OrderStatus.IN_PREPARATION);
-    }
-
-    @Test
-    void rejectPaymentCallsService() throws Exception {
-        String transactionId = "transaction123";
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/orders/" + transactionId + "/payment/reject"))
-                .andExpect(status().isCreated());
-
-        verify(orderService).rejectPayment(transactionId);
-    }
-
-    @Test
-    void rejectPaymentReturnsCreatedStatus() throws Exception {
-        String transactionId = "transaction123";
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/orders/" + transactionId + "/payment/reject"))
-                .andExpect(status().isCreated());
-    }
-
-    @Test
-    void approvePaymentWithTransactionIdCallsService() throws Exception {
-        String transactionId = "transaction456";
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/orders/" + transactionId + "/payment/approve"))
-                .andExpect(status().isCreated());
-
-        verify(orderService).approvePayment(transactionId);
-    }
-
-    @Test
-    void approvePaymentWithTransactionIdReturnsCreatedStatus() throws Exception {
-        String transactionId = "transaction456";
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/orders/" + transactionId + "/payment/approve"))
-                .andExpect(status().isCreated());
     }
 
     @Test

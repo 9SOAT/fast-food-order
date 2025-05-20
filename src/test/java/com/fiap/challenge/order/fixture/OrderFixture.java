@@ -5,8 +5,6 @@ import com.fiap.challenge.order.domain.model.order.Order;
 import com.fiap.challenge.order.domain.model.order.OrderItem;
 import com.fiap.challenge.order.domain.model.order.OrderStatus;
 import com.fiap.challenge.order.domain.model.payment.Payment;
-import com.fiap.challenge.order.domain.model.payment.PaymentStatus;
-import com.fiap.challenge.order.domain.model.payment.PaymentType;
 import com.fiap.challenge.order.domain.model.product.ProductCategory;
 
 import java.math.BigDecimal;
@@ -22,12 +20,6 @@ public class OrderFixture {
             1L,
             "12345678901",
             new Payment(
-                null,
-                null,
-                PaymentType.PIX,
-                new BigDecimal("10"),
-                UUID.randomUUID().toString(),
-                PaymentStatus.PENDING,
                 null
             ),
             List.of(new OrderItem(1L, "1", "X-Tudo", ProductCategory.SANDWICH, 2, new BigDecimal("20.00"), new BigDecimal("40.00"))), OrderStatus.WAITING_PAYMENT, new BigDecimal("40.00"),
