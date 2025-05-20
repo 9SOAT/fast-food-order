@@ -114,7 +114,7 @@ class DomainOrderServiceTest {
         Long paymentId = 1L;
         Payment payment = new Payment();
         Order order = OrderFixture.validOrder();
-        payment.setPaymentId(paymentId);
+        payment.setId(paymentId);
         order.setPayment(payment);
         order.setStatus(OrderStatus.WAITING_PAYMENT);
         when(orderRepositoryMock.findByPaymentId(paymentId)).thenReturn(Optional.of(order));
@@ -124,7 +124,7 @@ class DomainOrderServiceTest {
 
         // Assert
         verify(orderRepositoryMock).save(ArgumentMatchers.argThat(o ->
-                o.getPayment().getPaymentId().equals(paymentId) &&
+                o.getPayment().getId().equals(paymentId) &&
                         o.getStatus() == OrderStatus.READY_FOR_PREPARATION
         ));
     }
@@ -148,7 +148,7 @@ class DomainOrderServiceTest {
         Long paymentId = 1L;
         Payment payment = new Payment();
         Order order = OrderFixture.validOrder();
-        payment.setPaymentId(paymentId);
+        payment.setId(paymentId);
         order.setPayment(payment);
         order.setStatus(OrderStatus.WAITING_PAYMENT);
         when(orderRepositoryMock.findByPaymentId(paymentId)).thenReturn(Optional.of(order));
@@ -158,7 +158,7 @@ class DomainOrderServiceTest {
 
         // Assert
         verify(orderRepositoryMock).save(ArgumentMatchers.argThat(o ->
-                o.getPayment().getPaymentId().equals(paymentId) &&
+                o.getPayment().getId().equals(paymentId) &&
                         o.getStatus() == OrderStatus.CANCELLED
         ));
     }

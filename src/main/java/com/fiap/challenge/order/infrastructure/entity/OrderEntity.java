@@ -1,5 +1,6 @@
 package com.fiap.challenge.order.infrastructure.entity;
 
+import com.fiap.challenge.order.domain.model.payment.Payment;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
@@ -35,9 +36,7 @@ public class OrderEntity {
     private Long cartId;
 
     @NotNull
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "payment_id", referencedColumnName = "id")
-    private PaymentEntity payment;
+    private Long paymentId;
 
     @NotNull
     @Enumerated(STRING)
@@ -60,8 +59,7 @@ public class OrderEntity {
         this.items = items;
     }
 
-    public void setPayment(PaymentEntity payment) {
-        payment.setOrder(this);
-        this.payment = payment;
+    public void setPayment(Payment payment) {
+        this.paymentId = payment.getId();
     }
 }

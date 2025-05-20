@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Payment {
 
-    private Long paymentId;
+    private Long id;
 
 }

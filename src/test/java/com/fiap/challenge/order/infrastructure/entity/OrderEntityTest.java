@@ -1,5 +1,6 @@
 package com.fiap.challenge.order.infrastructure.entity;
 
+import com.fiap.challenge.order.domain.model.payment.Payment;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -22,10 +23,10 @@ class OrderEntityTest {
     @Test
     void setPayment() {
         OrderEntity order = new OrderEntity();
-        PaymentEntity payment = new PaymentEntity();
+        Payment payment = new Payment(1L);
         order.setPayment(payment);
 
-        assertNotNull(order.getPayment());
-        assertNotNull(payment.getOrder());
+        assertNotNull(order.getPaymentId());
+        assertNotNull(payment.getId());
     }
 }
