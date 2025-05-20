@@ -3,6 +3,7 @@ package com.fiap.challenge.order.domain;
 import com.fiap.challenge.order.domain.model.exception.NotFoundException;
 import com.fiap.challenge.order.domain.model.order.Order;
 import com.fiap.challenge.order.domain.model.order.OrderStatus;
+import com.fiap.challenge.order.domain.model.payment.Payment;
 import com.fiap.challenge.order.domain.ports.outbound.OrderRepository;
 import com.fiap.challenge.order.fixture.OrderFixture;
 import org.junit.jupiter.api.Test;
@@ -105,6 +106,75 @@ class DomainOrderServiceTest {
         // Assert
         verify(orderRepositoryMock).save(order);
         assertEquals(order, savedOrder);
+    }
+
+    @Test
+    void testApproveOrderPaymentSuccessfully() {
+        // Arrange
+        Long paymentId = 1L;
+        Payment payment = new Payment();
+        Order order = OrderFixture.validOrder();
+        payment.setPaymentId(paymentId);
+        order.setPayment(payment);
+        order.setStatus(OrderStatus.WAITING_PAYMENT);
+        when(orderRepositoryMock.findByPaymentId(paymentId)).thenReturn(Optional.of(order));
+
+        // Act
+        target.approveOrderPayment(paymentId);
+
+        // Assert
+        verify(orderRepositoryMock).save(ArgumentMatchers.argThat(o ->
+                o.getPayment().getPaymentId().equals(paymentId) &&
+                        o.getStatus() == OrderStatus.READY_FOR_PREPARATION
+        ));
+    }
+
+    @Test
+    void testApproveOrderPaymentWithOrderNotFound() {
+        // Arrange
+        Long paymentId = 1L;
+        when(orderRepositoryMock.findByPaymentId(paymentId)).thenReturn(Optional.empty());
+
+        // Act
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> target.approveOrderPayment(paymentId));
+
+        // Assert
+        assertEquals("Order not found. ID: 1", exception.getMessage());
+    }
+
+    @Test
+    void testRejectOrderPaymentSuccessfully() {
+        // Arrange
+        Long paymentId = 1L;
+        Payment payment = new Payment();
+        Order order = OrderFixture.validOrder();
+        payment.setPaymentId(paymentId);
+        order.setPayment(payment);
+        order.setStatus(OrderStatus.WAITING_PAYMENT);
+        when(orderRepositoryMock.findByPaymentId(paymentId)).thenReturn(Optional.of(order));
+
+        // Act
+        target.rejectOrderPayment(paymentId);
+
+        // Assert
+        verify(orderRepositoryMock).save(ArgumentMatchers.argThat(o ->
+                o.getPayment().getPaymentId().equals(paymentId) &&
+                        o.getStatus() == OrderStatus.CANCELLED
+        ));
+    }
+
+    @Test
+    void testRejectOrderPaymentWithOrderNotFound() {
+        // Arrange
+        Long paymentId = 1L;
+        when(orderRepositoryMock.findByPaymentId(paymentId)).thenReturn(Optional.empty());
+
+        // Act
+        NotFoundException exception = assertThrows(NotFoundException.class, () ->
+                target.rejectOrderPayment(paymentId));
+
+        // Assert
+        assertEquals("Order not found. ID: 1", exception.getMessage());
     }
 
 }
