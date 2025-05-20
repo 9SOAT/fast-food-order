@@ -12,7 +12,7 @@ public interface OrderRepository {
 
     PageResult<Order> findAllByStatusIn(List<OrderStatus> inProgressStatuses, int page, int size);
 
-    Optional<Order> findByPaymentTransactionId(String transactionId);
+    Optional<Order> findByPaymentId(Long paymentId);
 
     Optional<Order> findById(Long id);
 

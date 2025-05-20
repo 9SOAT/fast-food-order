@@ -45,4 +45,25 @@ public class DomainOrderService implements OrderService {
         order.setStatus(status);
         orderRepository.save(order);
     }
+
+    @Override
+    public void approveOrderPayment(Long paymentId) {
+        String notFoundMessage = String.format(ORDER_NOT_FOUND, paymentId);
+        Order byPaymentId = orderRepository.findByPaymentId(paymentId)
+                .orElseThrow(() -> new NotFoundException(notFoundMessage, "ORDER_NOT_FOUND"));
+
+        byPaymentId.setStatus(OrderStatus.READY_FOR_PREPARATION);
+        orderRepository.save(byPaymentId);
+    }
+
+    @Override
+    public void rejectOrderPayment(Long paymentId) {
+        String notFoundMessage = String.format(ORDER_NOT_FOUND, paymentId);
+        Order byPaymentId = orderRepository.findByPaymentId(paymentId)
+                .orElseThrow(() -> new NotFoundException(notFoundMessage, "ORDER_NOT_FOUND"));
+
+        byPaymentId.setStatus(OrderStatus.CANCELLED);
+        orderRepository.save(byPaymentId);
+    }
+
 }

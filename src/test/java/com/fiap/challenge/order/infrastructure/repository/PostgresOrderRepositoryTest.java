@@ -71,11 +71,11 @@ class PostgresOrderRepositoryTest {
         OrderEntity orderEntity = new OrderEntity();
         Order order = OrderFixture.validOrder();
         when(entityMapperMock.toOrder(orderEntity)).thenReturn(order);
-        when(jpaOrderRepositoryMock.findByPaymentTransactionId(any())).thenReturn(Optional.of(orderEntity));
+        when(jpaOrderRepositoryMock.findByPaymentId(any())).thenReturn(Optional.of(orderEntity));
 
-        postgresOrderRepository.findByPaymentTransactionId(null);
+        postgresOrderRepository.findByPaymentId(null);
 
-        verify(jpaOrderRepositoryMock, times(1)).findByPaymentTransactionId(any());
+        verify(jpaOrderRepositoryMock, times(1)).findByPaymentId(any());
     }
 
     @Test

@@ -14,5 +14,9 @@ public interface OrderService {
 
     void updateStatus(Long orderId, OrderStatus status);
 
+    void approveOrderPayment(Long orderId);
+
+    void rejectOrderPayment(Long orderId);
+
     PageResult<Order> getAllByStatusInOrderByCreatedAt(List<OrderStatus> status, int page, int size);
 }
