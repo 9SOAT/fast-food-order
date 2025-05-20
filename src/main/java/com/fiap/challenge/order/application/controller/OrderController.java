@@ -5,7 +5,6 @@ import com.fiap.challenge.order.application.request.OrderStatusMutation;
 import com.fiap.challenge.order.application.response.OrderView;
 import com.fiap.challenge.order.domain.model.PageResult;
 import com.fiap.challenge.order.domain.model.order.Order;
-import com.fiap.challenge.order.domain.model.payment.PaymentStatus;
 import com.fiap.challenge.order.domain.ports.inbound.OrderService;
 import com.fiap.challenge.order.infrastructure.mapper.PageResultMapper;
 import com.fiap.challenge.order.infrastructure.mapper.ViewMapper;
@@ -38,24 +37,6 @@ public class OrderController {
         orderService.saveOrder(order);
     }
 
-    @ResponseStatus(CREATED)
-    @PostMapping("/{transactionId}/payment/reject")
-    public void rejectPayment(@PathVariable String transactionId) {
-        orderService.rejectPayment(transactionId);
-    }
-
-    @ResponseStatus(CREATED)
-    @PostMapping("/{transactionId}/payment/approve")
-    public void approvePayment(@PathVariable String transactionId) {
-        orderService.approvePayment(transactionId);
-    }
-
-    @ResponseStatus(CREATED)
-    @PostMapping("/{id}/payment/approval")
-    public void approvePayment(@PathVariable Long id) {
-        orderService.approvePayment(id);
-    }
-
     @GetMapping()
     public PageResult<OrderView> getOrdersByStatus(
         @RequestParam @Min(1) int page,
@@ -64,11 +45,6 @@ public class OrderController {
     ) {
         PageResult<Order> orderPage = orderService.getAllByStatus(statusFilter.getOrderStatuses(), page, size);
         return PageResultMapper.transformContent(orderPage, viewMapper::toOrderView);
-    }
-
-    @GetMapping("/{id}/payment/status")
-    public PaymentStatus getPaymentStatusById(@PathVariable Long id) {
-        return orderService.getPaymentStatusById(id);
     }
 
     @GetMapping("/list")
