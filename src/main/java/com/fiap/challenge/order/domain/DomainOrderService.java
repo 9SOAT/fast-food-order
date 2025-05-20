@@ -16,7 +16,6 @@ public class DomainOrderService implements OrderService {
 
     private final OrderRepository orderRepository;
     private final String ORDER_NOT_FOUND = "Order not found. ID: %s";
-    private final String ORDER_TRANSACTION_NOT_FOUND = "Order not found. Transaction ID: %s";
 
     public DomainOrderService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
