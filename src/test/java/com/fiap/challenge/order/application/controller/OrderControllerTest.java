@@ -2,6 +2,7 @@ package com.fiap.challenge.order.application.controller;
 
 import com.fiap.challenge.order.application.request.OrderStatusFilter;
 import com.fiap.challenge.order.domain.model.PageResult;
+import com.fiap.challenge.order.domain.model.exception.NotFoundException;
 import com.fiap.challenge.order.domain.model.order.Order;
 import com.fiap.challenge.order.domain.model.order.OrderStatus;
 import com.fiap.challenge.order.domain.ports.inbound.OrderService;
@@ -23,8 +24,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -169,6 +169,31 @@ class OrderControllerTest {
                         .contentType(APPLICATION_JSON)
                         .content(invalidOrderJson))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void approveOrderPaymentReturnsOk() throws Exception {
+        long paymentId = 1L;
+
+        mockMvc.perform(MockMvcRequestBuilders.patch("/orders/payment/{id}/approve", paymentId)
+                        .contentType(APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk());
+
+        verify(orderService).approveOrderPayment(paymentId);
+    }
+
+
+    @Test
+    void rejectOrderPaymentReturnsOk() throws Exception {
+        long paymentId = 2L;
+
+        mockMvc.perform(MockMvcRequestBuilders.patch("/orders/payment/{id}/reject", paymentId)
+                        .contentType(APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk());
+
+        verify(orderService).rejectOrderPayment(paymentId);
     }
 
 }
