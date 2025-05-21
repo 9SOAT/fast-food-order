@@ -62,4 +62,8 @@ public class OrderEntity {
     public void setPayment(Payment payment) {
         this.paymentId = payment.getId();
     }
+
+    public Payment getPayment() {
+        return new Payment(this.paymentId);
+    }
 }
